@@ -1,0 +1,1 @@
+![About](/docs/imgs/about.jpg "About agile").
