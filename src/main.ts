@@ -12,7 +12,7 @@ async function bootstrap() {
     throw envConfig.error
   }
 
-  console.log(green("🔥 Env loaded! \n"))
+  console.log(green("🔥 Project Started! \n"))
 
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);

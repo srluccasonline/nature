@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Auth, AuthDocuments } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {
+
+  constructor(@InjectModel(Auth.name) private authModule: Model<AuthDocuments>) { }
+
   create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+    const user = new this.authModule(createAuthDto)
+    return user.save()
   }
 
   findAll() {
-    return `This action returns all auth`;
+    return this.authModule.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  findOne(id: string) {
+    return this.authModule.findById(id)
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  update(id: string, updateAuthDto: UpdateAuthDto) {
+    return this.authModule.findByIdAndUpdate(
+      {
+        _id: id
+      },
+      {
+        $set: UpdateAuthDto,
+      },
+      {
+        new: true
+      }
+    )
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  remove(id: string) {
+    return this.authModule.deleteOne({
+      _id: id
+    }).exec()
   }
+  
 }
