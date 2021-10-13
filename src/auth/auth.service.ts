@@ -42,5 +42,31 @@ export class AuthService {
       _id: id
     }).exec()
   }
-  
+
+  findByEmail(email: string) {
+    const findEmail = this.authModule.findOne({ email: email })
+    console.log(findEmail)
+    return findEmail
+  }
+
+  generateOTP(): number {
+    const minNumber = 100000
+    const maxNumber = 999999
+    const otp = Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber)
+    return otp
+  }
+
+  verifyOTP(email: string, id: string) {
+    const emailCreated = this.findByEmail(email)
+
+    if (emailCreated) {
+      this.authModule.findById(id){}
+    }
+
+  }
+
+  authenticateOTP() {
+
+  }
+
 }
