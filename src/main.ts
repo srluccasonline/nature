@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as dotenv from 'dotenv'
 import { green, red, yellow } from 'chalk'
 
@@ -15,6 +16,17 @@ async function bootstrap() {
   console.log(green("🔥 Project Started! \n"))
 
   const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('Qoma')
+    .setDescription('Api Docs')
+    .setVersion('1.0')
+    .addTag('qomaTag')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+
   await app.listen(3000);
 }
 bootstrap();
